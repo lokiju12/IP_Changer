@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 import os
 import socket
-
+import webbrowser
 
 
 
@@ -102,23 +102,29 @@ def setting_2():
     root.bind('<Escape>', end_setting)
 
 
-
-def root_window():
+def main_window():
     if messagebox.askyesno('매뉴얼', '[변경 방법]을 확인하고 [예]를 클릭해주세요.\n\n1. 변경 옵션 선택 [민수/방산]\n\n2. 변경할 [IP 입력]\n\n3. [적용] 버튼 클릭'):
+        def call():
+            webbrowser.open(r'http://call.hjsc.co.kr')
         win = Tk()
         win.title('IP 변경')
-        win.geometry('250x220+400+300')
+        win.geometry('250x230+400+300')
         win.resizable(False, False)	
-        lab_ip = Label(win, text=' 현재 IP : '+socket.gethostbyname(socket.gethostname())+' ', justify ='left', background='darkgreen', fg='white', font=('맑은 고딕', 12))
+        
+        lab_ip = Button(win, text=' 현재 IP : '+socket.gethostbyname(socket.gethostname())+' ', 
+                        relief='flat', justify ='left', activebackground='darkgreen', activeforeground='white', 
+                        background='darkgreen', fg='white', font=('맑은 고딕', 12), command=call)
         lab_ip.pack(padx=5, pady=15)
-        # lab_manual = Label(win, text='버튼을 누르고 IP를 변경하세요.', justify ='left', font=font)
-        # lab_manual.pack(padx=5, pady=10)
+        
         btn1 = Button(win, text='민수 IP 설정', width=20, command=setting_1, font=font, relief='groove')
         btn1.pack(padx=5, pady=10)
+        
         btn2 = Button(win, text='방산 IP 설정', width=20, command=setting_2, font=font, relief='groove')
         btn2.pack(padx=5, pady=10)
+        
         btn_auto = Button(win, text='자동 IP 설정', width=20, command=setting_auto, font=font, relief='groove')
         btn_auto.pack(padx=5, pady=10)
+        
         # 메인 윈도우를 ESC로 종료하기
         def end_window(event=True):
             win.destroy()
@@ -126,4 +132,4 @@ def root_window():
         win.mainloop()
     else:
         pass
-root_window()
+main_window()
